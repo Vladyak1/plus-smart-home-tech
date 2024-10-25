@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.avro.specific.SpecificRecordBase;
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.telemetry.collector.configuration.KafkaConfig;
 
@@ -22,13 +24,18 @@ public class KafkaEventProducer {
     }
 
     public void sendRecord(ProducerRecord<String, SpecificRecordBase> record) {
-        try(producer) {
-            producer.send(record);
-            producer.flush();
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        producer.send(record, new Callback() {
+            @Override
+            public void onCompletion(RecordMetadata metadata, Exception exception) {
+                if (exception != null) {
+                    System.err.println("Error sending record: " + exception.getMessage());
+                } else {
+                    System.out.printf("Sent record(key=%s value=%s) " +
+                                    "to partition=%d with offset=%d%n",
+                            record.key(), record.value(), metadata.partition(), metadata.offset());
+                }
+            }
+        });
     }
 
 }
