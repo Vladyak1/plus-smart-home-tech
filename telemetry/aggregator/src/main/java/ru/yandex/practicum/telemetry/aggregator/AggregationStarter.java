@@ -62,7 +62,7 @@ public class AggregationStarter {
             }
 
         } catch (WakeupException ignored) {
-
+            log.info("Analyzer. WakeupException");
         } catch (Exception e) {
             log.error("Aggregator. Error by handling events from sensors", e);
         } finally {
@@ -115,7 +115,7 @@ public class AggregationStarter {
             producer.flush();
             Thread.sleep(3000);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            log.info("Aggregator. Aggregator has been force-interrupted");
         }
 
     }
