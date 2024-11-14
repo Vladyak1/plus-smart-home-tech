@@ -50,7 +50,7 @@ public class SnapshotProcessor implements Runnable {
                 });
             }
         } catch (WakeupException ignored) {
-
+            log.info("Analyzer. WakeupException");
         } catch (Exception e) {
             log.error("Analyzer. Error by handling SnapshotEvents from kafka", e);
         } finally {

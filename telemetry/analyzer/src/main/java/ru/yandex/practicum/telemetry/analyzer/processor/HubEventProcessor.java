@@ -87,7 +87,7 @@ public class HubEventProcessor implements Runnable {
                 });
             }
         } catch (WakeupException ignored) {
-
+            log.info("Analyzer. WakeupException");
         } catch (Exception e) {
                 log.error("Analyzer. Error by handling HubEvents from kafka", e);
         } finally {
