@@ -34,12 +34,42 @@ services:
                              --bootstrap-server kafka:29092'"
     init: true
 
-  sht-db:
+  sht-db-telemetry:
     image: postgres:16.1
-    container_name: sht-db
+    container_name: sht-db-telemetry
     ports:
       - "9432:5432"
     environment:
-      - POSTGRES_DB=sht-db
+      - POSTGRES_DB=sht-db-telemetry
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main
+
+  sht-db-commerce-shopping-store:
+    image: postgres:16.1
+    container_name: sht-db-commerce-shopping-store
+    ports:
+      - "9433:5432"
+    environment:
+      - POSTGRES_DB=sht-db-commerce-shopping-store
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main
+
+  sht-db-commerce-shopping-cart:
+    image: postgres:16.1
+    container_name: sht-db-commerce-shopping-cart
+    ports:
+      - "9434:5432"
+    environment:
+      - POSTGRES_DB=sht-db-commerce-shopping-cart
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main
+
+  sht-db-commerce-warehouse:
+    image: postgres:16.1
+    container_name: sht-db-commerce-warehouse
+    ports:
+      - "9435:5432"
+    environment:
+      - POSTGRES_DB=sht-db-commerce-warehouse
       - POSTGRES_USER=main
       - POSTGRES_PASSWORD=main
