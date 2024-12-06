@@ -1,6 +1,6 @@
 package ru.yandex.practicum.commerce.api.dto.enums;
 
-public enum QuantityState { // Статус, перечисляющий состояние остатка как свойства товара
+public enum QuantityState {
     ENDED,
     FEW,
     ENOUGH,

@@ -2,7 +2,6 @@ package ru.yandex.practicum.commerce.shoppingStore.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 import ru.yandex.practicum.commerce.api.dto.enums.ProductCategory;
@@ -22,37 +21,34 @@ public class Product {
     @Id
     @UuidGenerator
     @Column(name = "product_id", nullable = false)
-    UUID productId;
+    private UUID productId;
 
     @Column(name = "name", nullable = false)
-    String name;
+    private String name;
 
     @Column(name = "description", nullable = false)
-    String description;
+    private String description;
 
     @Column(name = "image_src", nullable = false)
-    String imageSrc; // Ссылка на картинку во внешнем хранилище или SVG
+    private String imageSrc;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     @Column(name = "quantity_state")
-    QuantityState quantityState; // Статус, перечисляющий состояние остатка как свойства товара
+    private QuantityState quantityState;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     @Column(name = "product_state")
-    ProductState productState; // Статус товара
+    private ProductState productState;
 
     @Column(name = "rating")
-    double rating; // Рейтинг товара на основе оценок пользователей
+    private double rating;
 
-    @NotBlank
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    ProductCategory productCategory; // Категория товара
+    private ProductCategory productCategory;
 
     @Min(1)
     @Column(name = "price", nullable = false)
-    float price; // Цена товара
+    private float price;
 
 }

@@ -17,7 +17,7 @@ public interface ProductService {
 
     ProductDto update(ProductDto productDto);
 
-    boolean delete(String productId);
+    boolean isDeleted(String productId);
 
     boolean changeState(SetProductQuantityStateRequest stateRequest);
 

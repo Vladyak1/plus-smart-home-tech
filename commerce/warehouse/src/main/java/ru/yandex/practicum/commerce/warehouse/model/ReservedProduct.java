@@ -19,15 +19,15 @@ public class ReservedProduct {
     @Id
     @UuidGenerator
     @Column(name = "reserved_products_id")
-    UUID reservedProductId;
+    private UUID reservedProductId;
 
     @Column(name = "shopping_cart_id", nullable = false)
-    UUID shoppingCartId;
+    private UUID shoppingCartId;
 
     @Column(name = "product_id", nullable = false)
-    UUID productId;
+    private UUID productId;
 
     @Column(name = "reserved_quantity", nullable = false)
-    long reservedQuantity;
+    private long reservedQuantity;
 
 }

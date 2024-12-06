@@ -7,9 +7,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("warehouse.address")
 @Getter @Setter
 public class WarehouseAddress {
-    String country;
-    String city;
-    String street;
-    String house;
-    String flat;
+    private String country;
+    private String city;
+    private String street;
+    private String house;
+    private String flat;
 }

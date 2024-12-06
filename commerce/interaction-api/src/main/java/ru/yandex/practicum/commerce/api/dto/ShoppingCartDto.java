@@ -7,9 +7,9 @@ import java.util.Map;
 @Builder
 public record ShoppingCartDto(
 
-        String shoppingCartId, // Идентификатор корзины в БД
+        String shoppingCartId,
 
-        Map<String, Long> products // Отображение идентификатора товара на отобранное количество.
+        Map<String, Long> products
 
 ) {
 }
