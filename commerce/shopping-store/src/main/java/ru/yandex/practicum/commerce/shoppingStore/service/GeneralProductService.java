@@ -65,15 +65,8 @@ public class GeneralProductService implements ProductService {
     }
 
     @Override
-    public boolean delete(String productId) {
-        productRepository.findById(productId).
-                orElseThrow(() -> new ProductNotFoundException("Product with id " + productId + " not found"));
-        try{
-            productRepository.deleteById(productId);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
+    public boolean isDeleted(String productId) {
+        return productRepository.existsById(productId);
     }
 
     @Override

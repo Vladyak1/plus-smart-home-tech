@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional (readOnly = true)
+@Transactional(readOnly = true)
 public class GeneralWarehouseService implements WarehouseService {
 
     private final WarehouseProductRepository warehouseProductRepository;
@@ -61,9 +61,9 @@ public class GeneralWarehouseService implements WarehouseService {
     @Override
     public void returnProducts(Map<String, Long> products) {
         List<WarehouseProduct> warehouseProductList = warehouseProductRepository.findAllByProductIdIn(
-                    products.keySet().stream()
-                            .map(UUID::fromString)
-                            .toList());
+                products.keySet().stream()
+                        .map(UUID::fromString)
+                        .toList());
         if (products.size() != warehouseProductList.size()) {
             throw new ProductNotFoundException("Not all product found in warehouse");
         }
@@ -91,7 +91,7 @@ public class GeneralWarehouseService implements WarehouseService {
         Map<UUID, WarehouseProduct> currentProducts =
                 warehouseProductRepository.findAllByProductIdIn(productsIds).stream()
                         .collect(Collectors.toMap(WarehouseProduct::getProductId, product -> product));
-        for(UUID productId : productsIds) {
+        for (UUID productId : productsIds) {
             if (currentProducts.get(productId) == null) {
                 throw new ProductNotFoundException("Product not found in warehouse");
             }
@@ -181,9 +181,9 @@ public class GeneralWarehouseService implements WarehouseService {
     }
 
     private QuantityState specifyQuantityState(long quantity) {
-        if(quantity == 0) {
+        if (quantity == 0) {
             return QuantityState.ENDED;
-        } else if(quantity >= PRODUCT_LIMIT * 0.75) {
+        } else if (quantity >= PRODUCT_LIMIT * 0.75) {
             return QuantityState.MANY;
         } else if (quantity >= PRODUCT_LIMIT * 0.5) {
             return QuantityState.ENOUGH;

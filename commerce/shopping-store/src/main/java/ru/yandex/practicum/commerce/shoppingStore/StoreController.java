@@ -52,7 +52,7 @@ public class StoreController {
     @PostMapping("/removeProductFromStore")
     public boolean removeProduct(@RequestParam String productId) {
         log.info("==> POST /api/v1/shopping-store/removeProductFromStore. Removing product {}", productId);
-        boolean isProductDeleted = productService.delete(productId);
+        boolean isProductDeleted = productService.isDeleted(productId);
         log.info("<== POST /api/v1/shopping-store/removeProductFromStore. Is product removed: {}", isProductDeleted);
         return isProductDeleted;
     }

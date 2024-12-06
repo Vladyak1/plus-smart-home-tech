@@ -11,30 +11,30 @@ import ru.yandex.practicum.commerce.api.dto.enums.QuantityState;
 public record ProductDto (
 
         @NotBlank
-        String productId, // Идентификатор товара в БД
+        String productId,
 
         @NotBlank
-        String productName, // Наименование товара
+        String productName,
 
         @NotBlank
-        String description, // Описание товара
+        String description,
 
         @NotBlank
-        String imageSrc, // Ссылка на картинку во внешнем хранилище или SVG
+        String imageSrc,
 
         @NotBlank
-        QuantityState quantityState, // Статус, перечисляющий состояние остатка как свойства товара
+        QuantityState quantityState,
 
         @NotBlank
-        ProductState productState, // Статус товара
+        ProductState productState,
 
-        double rating, // Рейтинг товара на основе оценок пользователей
+        double rating,
 
         @NotBlank
-        ProductCategory productCategory, // Категория товара
+        ProductCategory productCategory,
 
         @Min(1)
-        float price // Цена товара
+        float price
 
 ) {
 }

@@ -56,7 +56,7 @@ public class GeneralCartService implements CartService {
 
         UUID cartId;
 
-        if(shoppingCart.isPresent()) {
+        if (shoppingCart.isPresent()) {
             cartId = shoppingCart.get().getShoppingCartId();
         } else {
             ShoppingCart newCart = ShoppingCart.builder()
@@ -71,7 +71,7 @@ public class GeneralCartService implements CartService {
         for (Map.Entry<String, Long> entry : products.entrySet()) {
             newCartProducts.add(
                     new CartProduct(
-                        new CartProductId(cartId, UUID.fromString(entry.getKey())), entry.getValue()));
+                            new CartProductId(cartId, UUID.fromString(entry.getKey())), entry.getValue()));
         }
 
         cartProductsRepository.saveAll(newCartProducts);
@@ -169,7 +169,7 @@ public class GeneralCartService implements CartService {
     }
 
     private void checkUsernameForEmpty(String username) {
-        if(username == null || username.isBlank()) {
+        if (username == null || username.isBlank()) {
             throw new NotAuthorizedUserException("Username is empty");
         }
     }

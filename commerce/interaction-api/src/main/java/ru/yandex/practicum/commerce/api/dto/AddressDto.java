@@ -2,7 +2,6 @@ package ru.yandex.practicum.commerce.api.dto;
 
 import lombok.Builder;
 
-// Представление адреса в системе.
 @Builder
 public record AddressDto(
 
