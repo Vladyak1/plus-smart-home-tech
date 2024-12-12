@@ -73,3 +73,33 @@ services:
       - POSTGRES_DB=sht-db-commerce-warehouse
       - POSTGRES_USER=main
       - POSTGRES_PASSWORD=main
+
+  sht-db-commerce-delivery:
+    image: postgres:16.1
+    container_name: sht-db-commerce-delivery
+    ports:
+      - "9436:5432"
+    environment:
+      - POSTGRES_DB=sht-db-commerce-delivery
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main
+
+  sht-db-commerce-order:
+    image: postgres:16.1
+    container_name: sht-db-commerce-order
+    ports:
+      - "9437:5432"
+    environment:
+      - POSTGRES_DB=sht-db-commerce-order
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main
+
+  sht-db-commerce-payment:
+    image: postgres:16.1
+    container_name: sht-db-commerce-payment
+    ports:
+      - "9438:5432"
+    environment:
+      - POSTGRES_DB=sht-db-commerce-payment
+      - POSTGRES_USER=main
+      - POSTGRES_PASSWORD=main

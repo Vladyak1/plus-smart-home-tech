@@ -20,10 +20,12 @@ CREATE TABLE IF NOT EXISTS warehouse_products
 );
 
 
-CREATE TABLE IF NOT EXISTS reserved_products
+CREATE TABLE IF NOT EXISTS order_bookings_products
 (
-    reserved_products_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    shopping_cart_id     UUID       NOT NULL,
-    product_id           UUID       NOT NULL REFERENCES warehouse_products (product_id) ON DELETE CASCADE,
+    order_product_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id             UUID       NOT NULL,
+    delivery_id          UUID,
+    product_id           UUID       NOT NULL
+        REFERENCES warehouse_products (product_id) ON DELETE CASCADE,
     reserved_quantity    BIGINT     NOT NULL
 )

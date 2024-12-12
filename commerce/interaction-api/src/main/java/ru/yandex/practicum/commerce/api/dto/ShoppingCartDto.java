@@ -3,13 +3,14 @@ package ru.yandex.practicum.commerce.api.dto;
 import lombok.Builder;
 
 import java.util.Map;
+import java.util.UUID;
 
 @Builder
 public record ShoppingCartDto(
 
-        String shoppingCartId,
+        UUID shoppingCartId,
 
-        Map<String, Long> products
+        Map<UUID, Long> products
 
 ) {
 }

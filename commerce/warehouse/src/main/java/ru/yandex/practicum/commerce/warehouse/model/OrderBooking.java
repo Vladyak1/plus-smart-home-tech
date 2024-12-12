@@ -13,16 +13,19 @@ import java.util.UUID;
 @Getter @Setter @ToString
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Table(name = "reserved_products")
-public class ReservedProduct {
+@Table(name = "order_bookings_products")
+public class OrderBooking {
 
     @Id
     @UuidGenerator
-    @Column(name = "reserved_products_id")
-    private UUID reservedProductId;
+    @Column(name = "order_product_id")
+    private UUID assembly_product_id;
 
-    @Column(name = "shopping_cart_id", nullable = false)
-    private UUID shoppingCartId;
+    @Column(name = "order_id", nullable = false)
+    private UUID orderId;
+
+    @Column(name = "delivery_id")
+    private UUID deliveryId;
 
     @Column(name = "product_id", nullable = false)
     private UUID productId;

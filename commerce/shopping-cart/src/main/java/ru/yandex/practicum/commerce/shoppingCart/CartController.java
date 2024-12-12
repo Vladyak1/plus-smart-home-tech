@@ -9,6 +9,7 @@ import ru.yandex.practicum.commerce.api.dto.ShoppingCartDto;
 import ru.yandex.practicum.commerce.shoppingCart.service.CartService;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class CartController {
 
     @PutMapping
     public ShoppingCartDto addNewProductsToCart(@RequestParam String username,
-                                          @RequestBody Map<String, Long> products) {
+                                          @RequestBody Map<UUID, Long> products) {
         log.info("==> PUT /api/v1/shopping-cart Adding new products {}, by user {}", products, username);
         ShoppingCartDto receivedShoppingCart = cartService.addProducts(username, products);
         log.info("<== PUT /api/v1/shopping-cart Returning shoppingCart by user {}: {}",
@@ -46,7 +47,7 @@ public class CartController {
 
     @PostMapping("/remove")
     public ShoppingCartDto updateCart(@RequestParam String username,
-                                      @RequestBody Map<String, Long> products) {
+                                      @RequestBody Map<UUID, Long> products) {
         log.info("==> POST /api/v1/shopping-cart/remove Changing cart of user {}", username);
         ShoppingCartDto changedShoppingCart = cartService.update(username, products);
         log.info("<== POST /api/v1/shopping-cart/remove Changed cart of user {}: {}", username, changedShoppingCart);
@@ -64,17 +65,17 @@ public class CartController {
         return changedShoppingCart;
     }
 
-    @PostMapping("/booking")
-    public BookedProductsDto book(@RequestParam String username) {
+    @PostMapping("/check")
+    public BookedProductsDto checkForProductsSufficiency(@RequestParam String username) {
         log.info("==> POST /api/v1/shopping-cart/booking book cart of user {}",
                 username);
-        BookedProductsDto bookedProductsDto = cartService.book(username);
+        BookedProductsDto bookedProductsDto = cartService.checkForProductsSufficiency(username);
         log.info("<== POST /api/v1/shopping-cart/booking Booked cart of user {}", bookedProductsDto);
         return bookedProductsDto;
     }
 
     @GetMapping("/{cartId}")
-    public ShoppingCartDto getShoppingCartById(@PathVariable String cartId) {
+    public ShoppingCartDto getShoppingCartById(@PathVariable UUID cartId) {
         log.info("==> GET /api/v1/shopping-cart/{cartId} Receiving cart by cartId {}", cartId);
         ShoppingCartDto receivedShoppingCart = cartService.getById(cartId);
         log.info("<== GET /api/v1/shopping-cart/{cartId} Returning cart by cartId {}", cartId);
