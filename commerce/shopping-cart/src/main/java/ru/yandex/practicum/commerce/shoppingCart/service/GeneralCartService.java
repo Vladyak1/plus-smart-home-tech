@@ -48,7 +48,7 @@ public class GeneralCartService implements CartService {
 
     @Override
     @Transactional
-    public ShoppingCartDto addProducts(String username, Map<String, Long> products) {
+    public ShoppingCartDto addProducts(String username, Map<UUID, Long> products) {
         checkUsernameForEmpty(username);
 
         Optional<ShoppingCart> shoppingCart =
@@ -56,7 +56,7 @@ public class GeneralCartService implements CartService {
 
         UUID cartId;
 
-        if (shoppingCart.isPresent()) {
+        if(shoppingCart.isPresent()) {
             cartId = shoppingCart.get().getShoppingCartId();
         } else {
             ShoppingCart newCart = ShoppingCart.builder()
@@ -68,10 +68,10 @@ public class GeneralCartService implements CartService {
         }
 
         List<CartProduct> newCartProducts = new ArrayList<>();
-        for (Map.Entry<String, Long> entry : products.entrySet()) {
+        for (Map.Entry<UUID, Long> entry : products.entrySet()) {
             newCartProducts.add(
                     new CartProduct(
-                            new CartProductId(cartId, UUID.fromString(entry.getKey())), entry.getValue()));
+                        new CartProductId(cartId, entry.getKey()), entry.getValue()));
         }
 
         cartProductsRepository.saveAll(newCartProducts);
@@ -95,10 +95,16 @@ public class GeneralCartService implements CartService {
 
     @Override
     @Transactional
-    public ShoppingCartDto update(String username, Map<String, Long> products) {
+    public ShoppingCartDto update(String username, Map<UUID, Long> products) {
         checkUsernameForEmpty(username);
         ShoppingCartDto currentShoppingCart = get(username);
-        UUID cartId = UUID.fromString(currentShoppingCart.shoppingCartId());
+        UUID cartId = currentShoppingCart.shoppingCartId();
+
+        for(Map.Entry<UUID, Long> entry : products.entrySet()) {
+            if(currentShoppingCart.products().get(entry.getKey()) == null) {
+                throw new NoProductsInShoppingCartException("No product " + entry.getKey()+ "in shoppingCart");
+            }
+        }
 
         List<CartProduct> currentCartProducts = mapToCartProducts(cartId, currentShoppingCart.products());
 
@@ -122,10 +128,10 @@ public class GeneralCartService implements CartService {
         log.info("Нужный объем продукта {}: {}",
                 changeProductQuantityRequest.productId(), changeProductQuantityRequest.newQuantity());
 
-        UUID cartId = UUID.fromString(currentShoppingCart.shoppingCartId());
+        UUID cartId = currentShoppingCart.shoppingCartId();
 
         Optional<CartProduct> cartProduct = cartProductsRepository.findById(
-                new CartProductId(cartId, UUID.fromString(changeProductQuantityRequest.productId())));
+                new CartProductId(cartId, changeProductQuantityRequest.productId()));
 
 
         if (cartProduct.isPresent()) {
@@ -150,9 +156,9 @@ public class GeneralCartService implements CartService {
 
     @Override
     @Transactional
-    public BookedProductsDto book(String username) {
+    public BookedProductsDto checkForProductsSufficiency(String username) {
         try {
-            return warehouseClient.bookProducts(get(username));
+            return warehouseClient.checkForProductsSufficiency(get(username));
         } catch (Exception e) {
             log.error("Ошибка при резервировании корзины");
             throw new RuntimeException(e.getMessage());
@@ -160,25 +166,25 @@ public class GeneralCartService implements CartService {
     }
 
     @Override
-    public ShoppingCartDto getById(String cartId) {
-        ShoppingCart shoppingCart = cartRepository.findById(UUID.fromString(cartId))
+    public ShoppingCartDto getById(UUID cartId) {
+        ShoppingCart shoppingCart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new NotFoundException("Cart with id " + cartId + " not found"));
         List<CartProduct> cartProductList =
-                cartProductsRepository.findAllByCartProductId_ShoppingCartId(UUID.fromString(cartId));
+                cartProductsRepository.findAllByCartProductId_ShoppingCartId(cartId);
         return cartMapper.toShoppingCartDto(shoppingCart, cartProductList);
     }
 
     private void checkUsernameForEmpty(String username) {
-        if (username == null || username.isBlank()) {
+        if(username == null || username.isBlank()) {
             throw new NotAuthorizedUserException("Username is empty");
         }
     }
 
-    private List<CartProduct> mapToCartProducts(UUID cartId, Map<String, Long> products) {
+    private List<CartProduct> mapToCartProducts(UUID cartId, Map<UUID, Long> products) {
         List<CartProduct> cartProducts = new ArrayList<>();
-        for (Map.Entry<String, Long> entry : products.entrySet()) {
+        for (Map.Entry<UUID, Long> entry : products.entrySet()) {
             cartProducts.add(new CartProduct(
-                    new CartProductId(cartId, UUID.fromString(entry.getKey())), entry.getValue()));
+                    new CartProductId(cartId, entry.getKey()), entry.getValue()));
         }
         return cartProducts;
     }

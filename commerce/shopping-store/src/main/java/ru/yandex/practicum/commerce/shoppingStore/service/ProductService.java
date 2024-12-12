@@ -6,6 +6,7 @@ import ru.yandex.practicum.commerce.api.dto.SetProductQuantityStateRequest;
 import ru.yandex.practicum.commerce.api.dto.enums.ProductCategory;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProductService {
 
@@ -13,11 +14,11 @@ public interface ProductService {
 
     ProductDto create(ProductDto productDto);
 
-    ProductDto get(String productId);
+    ProductDto get(UUID productId);
 
     ProductDto update(ProductDto productDto);
 
-    boolean isDeleted(String productId);
+    boolean isDeleted(UUID productId);
 
     boolean changeState(SetProductQuantityStateRequest stateRequest);
 

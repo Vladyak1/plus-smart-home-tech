@@ -14,6 +14,7 @@ import ru.yandex.practicum.commerce.shoppingStore.model.Product;
 import ru.yandex.practicum.commerce.shoppingStore.repository.ProductRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -34,7 +35,7 @@ public class GeneralProductService implements ProductService {
     @Override
     public ProductDto create(ProductDto productDto) {
         if (productRepository.findById(productDto.productId()).isPresent()) {
-            throw new ProductAlreadyExistException(productDto.productId());
+            throw new ProductAlreadyExistException(productDto.productId().toString());
         }
         log.info("Product for save: {}", productMapper.toProduct(productDto));
         Product productSaved = productRepository.save(
@@ -44,7 +45,7 @@ public class GeneralProductService implements ProductService {
     }
 
     @Override
-    public ProductDto get(String productId) {
+    public ProductDto get(UUID productId) {
         Product product = productRepository.findById(productId).
                 orElseThrow(() -> new ProductNotFoundException("Product with id " + productId + " not found"));
 
@@ -65,7 +66,7 @@ public class GeneralProductService implements ProductService {
     }
 
     @Override
-    public boolean isDeleted(String productId) {
+    public boolean isDeleted(UUID productId) {
         return productRepository.existsById(productId);
     }
 

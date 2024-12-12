@@ -1,5 +1,8 @@
 package ru.yandex.practicum.commerce.api.dto.exception;
 
-public class ProductInShoppingCartNotInWarehouse { //TODO
+public class ProductInShoppingCartNotInWarehouse extends RuntimeException {
+    ProductInShoppingCartNotInWarehouse(String message) {
+        super(message);
+    }
 
 }
