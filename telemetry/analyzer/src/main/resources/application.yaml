@@ -1,31 +1,24 @@
 spring:
   application:
     name: analyzer
+  config:
+    import: 'configserver:'
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: config-server
+      fail-fast: true
+      retry:
+        useRandomPolicy: true
+        max-interval: 6000
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:9432/sht-db
     username: main
     password: main
 
-analyzer:
-  kafka:
-    hub-consumer-properties:
-      "bootstrap.servers": localhost:9092
-      "group.id": analyzer-hub-group
-      "key.deserializer": org.apache.kafka.common.serialization.StringDeserializer
-      "value.deserializer": kafka.serializer.HubEventDeserializer
-    snapshot-consumer-properties:
-      "bootstrap.servers": localhost:9092
-      "group.id": analyzer-snapshot-group
-      "key.deserializer": org.apache.kafka.common.serialization.StringDeserializer
-      "value.deserializer": kafka.serializer.SensorSnapshotDeserializer
-    topics:
-      hubs-events: telemetry.hubs.v1
-      sensors-snapshot: telemetry.snapshots.v1
-grpc:
+eureka:
   client:
-     hub-router:
-       address: 'static://localhost:59090'
-       enableKeepAlive: true
-       keepAliveWithoutCalls: true
-       negotiationType: plaintext
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

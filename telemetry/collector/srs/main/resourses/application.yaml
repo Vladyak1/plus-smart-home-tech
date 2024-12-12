@@ -1,21 +1,22 @@
 spring:
   application:
     name: collector
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      fail-fast: true
+      retry:
+        useRandomPolicy: true
+        max-interval: 6000
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
 
-
-collector:
-  kafka:
-    producer-properties:
-      "bootstrap.servers": localhost:9092
-      "client.id": telemetry.collector
-      "key.serializer": org.apache.kafka.common.serialization.StringSerializer
-      "value.serializer": kafka.serializer.GeneralAvroSerializer
-    topics:
-      sensors-events: telemetry.sensors.v1
-      hubs-events: telemetry.hubs.v1
-
-grpc:
-  server:
-    port: 9091
 
