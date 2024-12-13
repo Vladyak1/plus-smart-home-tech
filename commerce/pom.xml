@@ -16,6 +16,9 @@
         <module>shopping-cart</module>
         <module>warehouse</module>
         <module>interaction-api</module>
+        <module>order</module>
+        <module>payment</module>
+        <module>delivery</module>
     </modules>
 
 
@@ -28,14 +31,6 @@
         </dependency>
 
         <!--      Spring Cloud     -->
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-dependencies</artifactId>
-            <version>${spring-cloud-dependencies.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

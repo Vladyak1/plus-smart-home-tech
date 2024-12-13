@@ -11,6 +11,7 @@ import ru.yandex.practicum.commerce.api.dto.enums.ProductCategory;
 import ru.yandex.practicum.commerce.shoppingStore.service.ProductService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class StoreController {
     }
 
     @PostMapping("/removeProductFromStore")
-    public boolean removeProduct(@RequestParam String productId) {
+    public boolean removeProduct(@RequestParam UUID productId) {
         log.info("==> POST /api/v1/shopping-store/removeProductFromStore. Removing product {}", productId);
         boolean isProductDeleted = productService.isDeleted(productId);
         log.info("<== POST /api/v1/shopping-store/removeProductFromStore. Is product removed: {}", isProductDeleted);
@@ -67,15 +68,19 @@ public class StoreController {
 
 
     @GetMapping("/{productId}")
-    public ProductDto getProduct(@PathVariable String productId) {
+    public ProductDto getProduct(@PathVariable UUID productId) {
         log.info("==> GET /api/v1/shopping-store/{}. Getting product with productId: {}", productId, productId);
         ProductDto receivedProductDto = productService.get(productId);
         log.info("<== GET /api/v1/shopping-store/{}. Getting product with productId: {}", productId, productId);
         return receivedProductDto;
     }
 
-
-
-
+    @GetMapping("/products")
+    public List<ProductDto> getProductsByIds(@RequestParam List<UUID> ids) {
+        log.info("==> GET /api/v1/shopping-store/products. Getting products by ids {}", ids);
+        List<ProductDto> products = productService.getProductsByIds(ids);
+        log.info("<== GET /api/v1/shopping-store/products. Received product list with size {}", products.size());
+        return products;
+    }
 
 }
