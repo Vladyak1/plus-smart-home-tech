@@ -34,7 +34,6 @@ public class GeneralDeliveryService implements DeliveryService {
     private float baseCost;
 
     @Override
-    @Transactional
     public DeliveryDto create(DeliveryDto deliveryDto) {
         Delivery savedDelivery = deliveryRepository.save(deliveryMapper.toDelivery(deliveryDto));
         return deliveryMapper.toDeliveryDto(savedDelivery);
@@ -79,21 +78,21 @@ public class GeneralDeliveryService implements DeliveryService {
         Address addressFrom = delivery.getFromAddress();
         Address addressTo = delivery.getToAddress();
 
-        if(addressFrom.toString().contains("ADDRESS_1")) {
+        if (addressFrom.toString().contains("ADDRESS_1")) {
             deliveryCost = deliveryCost * 1;
-        } else if(addressFrom.toString().contains("ADDRESS_2")) {
+        } else if (addressFrom.toString().contains("ADDRESS_2")) {
             deliveryCost = deliveryCost * 2;
         }
 
-        if(orderDto.fragile()) {
+        if (orderDto.fragile()) {
             deliveryCost = deliveryCost * 1.2f;
         }
 
-        deliveryCost = deliveryCost * (float) (1 + orderDto.deliveryWeight()*0.3f);
+        deliveryCost = deliveryCost * (float) (1 + orderDto.deliveryWeight() * 0.3f);
 
-        deliveryCost = deliveryCost * (float) (1 + orderDto.deliveryVolume()*0.2f);
+        deliveryCost = deliveryCost * (float) (1 + orderDto.deliveryVolume() * 0.2f);
 
-        if(!addressTo.toString().contains("ADDRESS_1") && !addressTo.toString().contains("ADDRESS_2")) {
+        if (!addressTo.toString().contains("ADDRESS_1") && !addressTo.toString().contains("ADDRESS_2")) {
             deliveryCost = deliveryCost * 1.2f;
         }
 

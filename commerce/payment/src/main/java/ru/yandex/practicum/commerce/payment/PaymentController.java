@@ -21,7 +21,6 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-
     @PostMapping
     public PaymentDto create(@RequestBody final OrderDto order) {
         log.info("==> POST /api/v1/payment Create payment for order: {}", order);
@@ -58,15 +57,5 @@ public class PaymentController {
         paymentService.paymentFailed(orderId);
         log.info("<== POST /api/v1/payment/failed Payment failed: {}", orderId);
     }
-
-
-
-
-
-
-
-
-
-
 
 }

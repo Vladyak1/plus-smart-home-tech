@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.yandex.practicum.commerce.api.dto.ProductDto;
 import ru.yandex.practicum.commerce.api.dto.SetProductQuantityStateRequest;
 
+import java.util.List;
 import java.util.UUID;
 
 @FeignClient(name = "shopping-store", path = "/api/v1/shopping-store")
@@ -19,4 +20,6 @@ public interface ShoppingStoreClient {
     @PostMapping("/quantityState")
     boolean changeProductState(@RequestParam SetProductQuantityStateRequest stateRequest);
 
+    @GetMapping("/products")
+    List<ProductDto> getProductsByIds(@RequestParam("ids") List<UUID> ids);
 }

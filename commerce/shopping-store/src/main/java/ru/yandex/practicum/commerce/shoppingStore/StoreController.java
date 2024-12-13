@@ -75,8 +75,12 @@ public class StoreController {
         return receivedProductDto;
     }
 
-
-
-
+    @GetMapping("/products")
+    public List<ProductDto> getProductsByIds(@RequestParam List<UUID> ids) {
+        log.info("==> GET /api/v1/shopping-store/products. Getting products by ids {}", ids);
+        List<ProductDto> products = productService.getProductsByIds(ids);
+        log.info("<== GET /api/v1/shopping-store/products. Received product list with size {}", products.size());
+        return products;
+    }
 
 }

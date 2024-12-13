@@ -22,4 +22,5 @@ public interface ProductService {
 
     boolean changeState(SetProductQuantityStateRequest stateRequest);
 
+    List<ProductDto> getProductsByIds(List<UUID> ids);
 }

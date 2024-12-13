@@ -20,11 +20,11 @@ public class Delivery {
     @UuidGenerator
     private UUID deliveryId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_address_id")
     private Address fromAddress;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_address_id")
     private Address toAddress;
 

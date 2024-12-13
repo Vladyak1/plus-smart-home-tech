@@ -10,8 +10,12 @@ import java.util.Map;
 import java.util.UUID;
 
 @Builder
-@Getter @Setter @EqualsAndHashCode(of = "orderId") @ToString
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(of = "orderId")
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -62,7 +66,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 

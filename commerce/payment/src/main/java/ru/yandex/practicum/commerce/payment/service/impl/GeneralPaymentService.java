@@ -16,8 +16,11 @@ import ru.yandex.practicum.commerce.payment.model.PaymentState;
 import ru.yandex.practicum.commerce.payment.repository.PaymentRepository;
 import ru.yandex.practicum.commerce.payment.service.PaymentService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +41,7 @@ public class GeneralPaymentService implements PaymentService {
         Payment payment = Payment.builder()
                 .totalPayment(calculateTotalCost(orderDto))
                 .deliveryTotal(deliveryClient.calculateDeliveryCost(orderDto))
-                .feeTotal(calculateProductCost(orderDto) * (float) tax/100)
+                .feeTotal(calculateProductCost(orderDto) * (float) tax / 100)
                 .paymentState(PaymentState.PENDING)
                 .build();
 
@@ -49,20 +52,30 @@ public class GeneralPaymentService implements PaymentService {
 
     @Override
     public float calculateTotalCost(OrderDto orderDto) {
-        return (calculateProductCost(orderDto) * (float) (1 + tax/100) +
-                        deliveryClient.calculateDeliveryCost(orderDto));
+        return (calculateProductCost(orderDto) * (float) (1 + tax / 100) +
+                deliveryClient.calculateDeliveryCost(orderDto));
     }
 
     @Override
     public float calculateProductCost(OrderDto orderDto) {
-        Map<UUID, Long> products =  orderDto.products();
+        Map<UUID, Long> products = orderDto.products();
         float productCost = 0f;
+
+        List<ProductDto> productList = shoppingStoreClient.getProductsByIds(new ArrayList<>(products.keySet()));
+
+        Map<UUID, ProductDto> productMap = productList.stream()
+                .collect(Collectors.toMap(ProductDto::productId, product -> product));
+
         for (Map.Entry<UUID, Long> entry : products.entrySet()) {
-            ProductDto product = shoppingStoreClient.getProduct(entry.getKey());
-            productCost += product.price() * entry.getValue();
+            ProductDto product = productMap.get(entry.getKey());
+            if (product != null) {
+                productCost += product.price() * entry.getValue();
+            }
         }
+
         return productCost;
     }
+
 
     @Override
     public ResponseEntity<Void> refund(UUID orderId) {

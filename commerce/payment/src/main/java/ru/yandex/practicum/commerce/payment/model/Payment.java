@@ -12,7 +12,8 @@ import java.util.UUID;
 
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 @Builder
 @NoArgsConstructor
@@ -23,21 +24,21 @@ public class Payment {
 
     @Id
     @UuidGenerator
-    UUID paymentId;
+    private UUID paymentId;
 
     @Column(name = "order_id")
-    UUID orderId;
+    private UUID orderId;
 
     @Column(name = "total_payment")
-    Float totalPayment;
+    private Float totalPayment;
 
     @Column(name = "delivery_total")
-    Float deliveryTotal;
+    private Float deliveryTotal;
 
     @Column(name = "fee_total")
-    Float feeTotal;
+    private Float feeTotal;
 
     @Column(name = "payment_state")
-    PaymentState paymentState;
+    private PaymentState paymentState;
 
 }

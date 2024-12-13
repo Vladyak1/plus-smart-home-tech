@@ -10,16 +10,18 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
-@EqualsAndHashCode(of = "addressId") @ToString
-@NoArgsConstructor @AllArgsConstructor
+@EqualsAndHashCode(of = "addressId")
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "addresses")
 public class Address {
     @Id
-    UUID addressId;
-    String country;
-    String city;
-    String street;
-    String house;
-    String flat;
+    private UUID addressId;
+    private String country;
+    private String city;
+    private String street;
+    private String house;
+    private String flat;
 }

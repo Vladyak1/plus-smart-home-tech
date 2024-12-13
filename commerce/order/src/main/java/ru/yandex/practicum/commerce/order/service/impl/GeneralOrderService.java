@@ -63,11 +63,11 @@ public class GeneralOrderService implements OrderService {
 
         DeliveryDto deliveryDto = deliveryClient.create(
                 DeliveryDto.builder()
-                .fromAddress(warehouseClient.getWarehouseAddress())
-                .toAddress(createNewOrderRequest.deliveryAddress())
-                .orderId(intermediateCreatedOrder.getOrderId())
-                .deliveryState(DeliveryState.CREATED)
-                .build());
+                        .fromAddress(warehouseClient.getWarehouseAddress())
+                        .toAddress(createNewOrderRequest.deliveryAddress())
+                        .orderId(intermediateCreatedOrder.getOrderId())
+                        .deliveryState(DeliveryState.CREATED)
+                        .build());
 
         intermediateCreatedOrder.setDeliveryId(deliveryDto.orderId());
 
@@ -199,7 +199,7 @@ public class GeneralOrderService implements OrderService {
         Order receivedOrder = orderRepository.findById(orderId).orElseThrow(
                 () -> new NoOrderFoundException("Order with id " + orderId + " not found"));
 
-        if(receivedOrder.getTotalPrice() == null) {
+        if (receivedOrder.getTotalPrice() == null) {
             receivedOrder.setTotalPrice(paymentClient.calculateTotalCost(
                     orderMapper.toOrderDto(receivedOrder)));
             orderRepository.save(receivedOrder);
@@ -212,7 +212,7 @@ public class GeneralOrderService implements OrderService {
         Order receivedOrder = orderRepository.findById(orderId).orElseThrow(
                 () -> new NoOrderFoundException("Order with id " + orderId + " not found"));
 
-        if(receivedOrder.getDeliveryPrice() == null) {
+        if (receivedOrder.getDeliveryPrice() == null) {
             receivedOrder.setDeliveryPrice(deliveryClient.calculateDeliveryCost(
                     orderMapper.toOrderDto(receivedOrder)));
             orderRepository.save(receivedOrder);

@@ -20,20 +20,20 @@ public class Address {
 
     @Id
     @UuidGenerator
-    UUID address_id;
+    private UUID address_id;
 
     @Column(name = "country")
-    String country;
+    private String country;
 
     @Column(name = "city")
-    String city;
+    private String city;
 
     @Column(name = "street")
-    String street;
+    private String street;
 
     @Column(name = "house")
-    String house;
+    private String house;
 
     @Column(name = "flat")
-    String flat;
+    private String flat;
 }

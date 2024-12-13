@@ -83,4 +83,10 @@ public class GeneralProductService implements ProductService {
         return true;
     }
 
+    @Override
+    public List<ProductDto> getProductsByIds(List<UUID> ids) {
+        return productRepository.findAllByIdIn(ids);
+    }
+
+
 }
